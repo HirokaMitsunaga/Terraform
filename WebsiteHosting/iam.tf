@@ -1,5 +1,9 @@
 data "aws_caller_identity" "current" {}
 
+locals {
+  account_id = data.aws_caller_identity.current.account_id
+}
+
 
 data "aws_iam_policy_document" "assume_role" {
   statement {
@@ -33,7 +37,7 @@ data "aws_iam_policy_document" "lambda_policy" {
       "logs:PutLogEvents"
     ]
     effect    = "Allow"
-    resources = ["arn:aws:logs:ap-northeast-1:${data.aws_caller_identity.current.account_id}*"]
+    resources = ["arn:aws:logs:ap-northeast-1:${local.account_id}*"]
   }
 }
 
